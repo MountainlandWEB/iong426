@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonTextarea, IonRow, IonInput, IonCol } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { stopCircleOutline } from 'ionicons/icons';
+import { stopCircleOutline, volumeHighOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -12,13 +12,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class Tab1Page implements OnInit {
   recognition!: any;
-  recognizedText = '';
+  recognizedText = 'Everybody wants to rule the world...';
   isListening = signal<boolean>(false);
   pitch: number = .5;
   rate: number = 1;
 
   constructor() {
-    addIcons({ stopCircleOutline });
+    addIcons({ stopCircleOutline, volumeHighOutline });
     const SpeechRecognition = (window as any).SpeechRecognition ||
                               (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
