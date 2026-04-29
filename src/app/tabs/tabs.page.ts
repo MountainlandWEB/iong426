@@ -1,7 +1,7 @@
 import { Component, EnvironmentInjector, inject } from '@angular/core';
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { ellipse, ellipseOutline, square, squareOutline, micCircleOutline, micCircle } from 'ionicons/icons';
+import { micCircleOutline, micCircle, square, squareOutline, navigate, navigateOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tabs',
@@ -14,7 +14,7 @@ export class TabsPage {
   activeTab = 'tab1';
 
   constructor() {
-    addIcons({ micCircleOutline, micCircle, ellipse, ellipseOutline, square, squareOutline });
+    addIcons({ navigate, navigateOutline, micCircleOutline, micCircle, square, squareOutline });
   }
 
   onTabChange(event: any) {
