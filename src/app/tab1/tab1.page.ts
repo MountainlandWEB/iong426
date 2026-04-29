@@ -1,18 +1,21 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonTextarea } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonTextarea, IonRow, IonInput, IonCol } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { stopCircleOutline } from 'ionicons/icons';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonTextarea, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon],
+  imports: [IonCol, FormsModule, IonInput, IonRow, IonTextarea, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon],
 })
 export class Tab1Page implements OnInit {
   recognition!: any;
-  recognizedText = signal<string>('');
+  recognizedText = '';
   isListening = signal<boolean>(false);
+  pitch: number = .5;
+  rate: number = 1;
 
   constructor() {
     addIcons({ stopCircleOutline });
@@ -36,7 +39,8 @@ export class Tab1Page implements OnInit {
 
     this.recognition.onresult = (event: any) => {
       const transcript = event.results[event.results.length - 1][0].transcript;
-      this.recognizedText.set(transcript);
+      this.recognizedText = transcript;
+      this.speak();
       console.log('Recognized text:', transcript);
     };
 
@@ -47,6 +51,14 @@ export class Tab1Page implements OnInit {
 
   record() {
     this.recognition.start();
+  }
+
+  speak() {
+    const synth = window.speechSynthesis;
+    const utterThis = new SpeechSynthesisUtterance(this.recognizedText);
+    utterThis.pitch = Math.max(0.1, Math.min(10, this.pitch));
+    utterThis.rate = Math.max(0.1, Math.min(10, this.rate));
+    synth.speak(utterThis);
   }
 
 }
