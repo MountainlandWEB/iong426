@@ -1,14 +1,14 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonTextarea, IonRow, IonInput, IonCol } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonTextarea, IonRow, IonInput, IonCol, IonButtons } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { stopCircleOutline, volumeHighOutline } from 'ionicons/icons';
+import { stopCircleOutline, volumeHighOutline, shareOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonCol, FormsModule, IonInput, IonRow, IonTextarea, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon],
+  imports: [IonButtons, IonCol, FormsModule, IonInput, IonRow, IonTextarea, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon],
 })
 export class Tab1Page implements OnInit {
   recognition!: any;
@@ -18,7 +18,7 @@ export class Tab1Page implements OnInit {
   rate: number = 1;
 
   constructor() {
-    addIcons({ stopCircleOutline, volumeHighOutline });
+    addIcons({ stopCircleOutline, volumeHighOutline, shareOutline });
     const SpeechRecognition = (window as any).SpeechRecognition ||
                               (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -59,6 +59,21 @@ export class Tab1Page implements OnInit {
     utterThis.pitch = Math.max(0.1, Math.min(10, this.pitch));
     utterThis.rate = Math.max(0.1, Math.min(10, this.rate));
     synth.speak(utterThis);
+  }
+
+  share() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'MTech PWA Speech Recognition',
+        text: "Check out this cool speech recognition app built with Ionic and Angular!",
+      }).then(() => {
+        console.log('Content shared successfully');
+      }).catch((error) => {
+        console.error('Error sharing content:', error);
+      });
+    } else {
+      console.warn('Web Share API not supported in this browser.');
+    }
   }
 
 }
