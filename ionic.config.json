@@ -1,0 +1,7 @@
+{
+  "name": "iong426",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
