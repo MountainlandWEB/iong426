@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { ModalController, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { GoogleMap } from '@angular/google-maps';
+import { informationCircle } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+import { AboutPage } from '../about/about.page';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [ IonHeader, IonToolbar, IonTitle, IonContent, GoogleMap]
+  imports: [IonIcon, IonButton, IonButtons,  IonHeader, IonToolbar, IonTitle, IonContent, GoogleMap]
 })
 export class Tab2Page implements OnInit {
   zoom = 12;
@@ -20,7 +23,9 @@ export class Tab2Page implements OnInit {
     minZoom: 8,
   };
 
-  constructor() {}
+  constructor(private modalCtrl: ModalController) {
+    addIcons({ informationCircle })
+  }
 
   ngOnInit() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -29,5 +34,15 @@ export class Tab2Page implements OnInit {
         lng: position.coords.longitude,
       };
     });
+  }
+
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: AboutPage,
+      initialBreakpoint: 0.75,
+      breakpoints: [0, 0.25, 0.5, 0.75, 1]
+    });
+    modal.present();
+    // const { data, role } = await modal.onWillDismiss();
   }
 }
